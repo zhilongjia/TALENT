@@ -882,5 +882,8 @@ def get_method(model):
     elif model == 'mitra':
         from TALENT.model.methods.mitra import MitraMethod
         return MitraMethod
+    elif model == 'xrfm':
+        from TALENT.model.classical_methods.xrfm import XRFMMethod
+        return XRFMMethod
     else:
         raise NotImplementedError("Model \"" + model + "\" not yet implemented")
