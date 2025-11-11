@@ -76,6 +76,7 @@ Welcome to **TALENT**, a benchmark with a comprehensive machine learning toolbox
 - [2025-11]🌟 Add [RFM](https://www.science.org/doi/10.1126/science.adi5639) (Science).
 - [2025-11]🌟 Add [Real-TabPFN](https://arxiv.org/abs/2507.03971).
 - [2025-11]🌟 Add [LimiX](https://github.com/limix-ldm/LimiX).
+- [2025-09]🌟 Add [xRFM](https://arxiv.org/abs/2508.10053).
 - [2025-08]🌟 Add [Mitra](https://www.amazon.science/blog/mitra-mixed-synthetic-priors-for-enhancing-tabular-foundation-models).
 - [2025-06]🌟 Add [TabAutoPNPNet](https://www.mdpi.com/2079-9292/14/6/1165) (Electronics 2025).
 - [2025-06]🌟 Add [TabICL](https://arxiv.org/abs/2502.05564) (ICML 2025). The current code is based on TabICL v0.1.2.

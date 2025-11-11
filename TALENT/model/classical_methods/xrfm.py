@@ -46,13 +46,12 @@ class XRFMMethod(classical_methods):
                 'verbose': True,
             }
         }
-        self.model = xRFM(rfm_params, categorical_info=categorical_info, 
+        self.model = xRFM(rfm_params, categorical_info=categorical_info, device=self.args.device,
                           min_subset_size=model_config.get('min_subset_size', 60000),
                           classification_mode=model_config.get('classification_mode', 'prevalence'))
 
     def data_format(self, is_train = True, N = None, C = None, y = None):
         num_numerical_features = self.N['train'].shape[1] if self.N is not None else 0
-        num_categorical_features = self.C['train'].shape[1] if self.C is not None else 0
         if is_train:
             self.N, self.C, self.num_new_value, self.imputer, self.cat_new_value = data_nan_process(self.N, self.C, self.args.num_nan_policy, self.args.cat_nan_policy)
             self.y, self.y_info, self.label_encoder = data_label_process(self.y, self.is_regression)
@@ -147,8 +146,8 @@ class XRFMMethod(classical_methods):
             X_train = torch.from_numpy(np.concatenate((self.C['train'], self.N['train']), axis=1))
             X_val = torch.from_numpy(np.concatenate((self.C['val'], self.N['val']), axis=1))
         
-        X_train = X_train.to(dtype=torch.float32, device='cuda')
-        X_val = X_val.to(dtype=torch.float32, device='cuda')
+        X_train = X_train.to(dtype=torch.float32, device=self.args.device)
+        X_val = X_val.to(dtype=torch.float32, device=self.args.device)
         y_train = torch.from_numpy(self.y['train'])
         y_val = torch.from_numpy(self.y['val'])
 
@@ -194,8 +193,7 @@ class XRFMMethod(classical_methods):
             X_train = torch.from_numpy(np.concatenate((self.C['train'], self.N['train']), axis=1))
 
 
-        X_train = X_train.to(dtype=torch.float32, device='cuda')
-        self.model = xRFM()
+        X_train = X_train.to(dtype=torch.float32, device=self.args.device)
         self.model.load_state_dict(checkpoint['state_dict'], X_train)
 
         # Convert test data and labels to tensors
@@ -209,7 +207,7 @@ class XRFMMethod(classical_methods):
             assert self.C_test is not None and self.N_test is not None
             X_test = torch.from_numpy(np.concatenate((self.C_test, self.N_test), axis=1))
 
-        X_test = X_test.float().cuda()
+        X_test = X_test.float().to(self.args.device)
 
         test_label = self.y_test
         if self.is_regression:
