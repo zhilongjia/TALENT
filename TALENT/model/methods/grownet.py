@@ -76,6 +76,7 @@ class GrowNetMethod(Method):
             self.model.to_cuda()
             if not self.args.use_float:
                 self.model.to_double()
+                m.double()
             for epoch in range(training_config['epochs_per_stage']):
                 for i, (X, y) in enumerate(self.train_loader, 1):
                     if self.N is not None and self.C is not None:
@@ -145,7 +146,7 @@ class GrowNetMethod(Method):
         self.model.to_eval()
         self.model.to_cuda()
         if not self.args.use_float:
-                self.model.to_double()
+            self.model.to_double()
         test_logit, test_label = [], []
         with torch.no_grad():
             for i, (X, y) in tqdm(enumerate(self.val_loader)):
@@ -195,7 +196,7 @@ class GrowNetMethod(Method):
         self.model.to_eval()
         self.model.to_cuda()
         if not self.args.use_float:
-                self.model.to_double()
+            self.model.to_double()
         self.data_format(False, N, C, y)
 
         tic = time.time()

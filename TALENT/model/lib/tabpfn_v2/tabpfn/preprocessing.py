@@ -21,7 +21,7 @@ from .constants import (
     MAXIMUM_FEATURE_SHIFT,
     PARALLEL_MODE_TO_RETURN_AS,
 )
-from .preprocessing import (
+from .model.preprocessing import (
     AddFingerprintFeaturesStep,
     EncodeCategoricalFeaturesStep,
     FeaturePreprocessingTransformerStep,

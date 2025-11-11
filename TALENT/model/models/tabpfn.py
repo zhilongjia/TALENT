@@ -39,7 +39,7 @@ class TabPFNClassifier(BaseEstimator, ClassifierMixin):
         only_inference = True, 
         seed = 0, 
         no_grad = True, 
-        batch_size_inference = 32,
+        batch_size_inference = 8,
         subsample_features = False,
     ):
         """

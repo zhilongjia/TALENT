@@ -31,7 +31,7 @@ from .preprocessing import (
     EnsembleConfig,
     default_classifier_preprocessor_configs,
 )
-from TALENT.model.lib.pfn_v2.tabpfn.utils import (
+from .utils import (
     _fix_dtypes,
     _get_ordinal_encoder,
     infer_categorical_features,
