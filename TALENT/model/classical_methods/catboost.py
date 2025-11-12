@@ -46,8 +46,24 @@ class CatBoostMethod(classical_methods):
             X_train,X_val = self.C['train'],self.C['val']
         else:
             X_train = np.concatenate([self.N['train'], self.C['train'].astype(str)], axis=1)
-            X_val = np.concatenate([self.N['val'], self.C['val'].astype(str)], axis=1) 
-        self.model = CatBoostRegressor(**model_config, random_state=self.args.seed, cat_features=cat_features, allow_writing_files=False) if self.is_regression else CatBoostClassifier(**model_config, random_state=self.args.seed, cat_features=cat_features, allow_writing_files=False)
+            X_val = np.concatenate([self.N['val'], self.C['val'].astype(str)], axis=1)
+        if self.args.gpu != 'cpu' and self.args.gpu != '':
+            task_type = 'GPU'
+        else:
+            task_type = 'CPU'
+        self.model = CatBoostRegressor(
+            **model_config, 
+            task_type=task_type, 
+            random_state=self.args.seed, 
+            cat_features=cat_features, 
+            allow_writing_files=False
+        ) if self.is_regression else CatBoostClassifier(
+            **model_config, 
+            task_type=task_type, 
+            random_state=self.args.seed, 
+            cat_features=cat_features, 
+            allow_writing_files=False
+        )
         # if not train, skip the training process. such as load the checkpoint and directly predict the results
         if not train:
             return
