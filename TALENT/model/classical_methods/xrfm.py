@@ -225,7 +225,7 @@ class XRFMMethod(classical_methods):
             mae = skm.mean_absolute_error(labels, predictions)
             rmse = skm.mean_squared_error(labels, predictions) ** 0.5
             r2 = skm.r2_score(labels, predictions)
-            r = pearsonr(labels.reshape(-1), predictions)[0]
+            r = pearsonr(labels.reshape(-1), predictions.reshape(-1))[0]
             if y_info['policy'] == 'mean_std':
                 mae *= y_info['std']
                 rmse *= y_info['std']
