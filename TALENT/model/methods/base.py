@@ -6,6 +6,7 @@ import os.path as osp
 from tqdm import tqdm
 import sklearn.metrics as skm
 from sklearn.preprocessing import label_binarize
+from scipy.stats import pearsonr
 
 from TALENT.model.utils import (
     Timer,
@@ -331,10 +332,11 @@ class Method(object, metaclass=abc.ABCMeta):
             mae = skm.mean_absolute_error(labels, predictions)
             rmse = skm.mean_squared_error(labels, predictions) ** 0.5
             r2 = skm.r2_score(labels, predictions)
+            r = pearsonr(labels.reshape(-1), predictions.reshape(-1))[0]
             if y_info['policy'] == 'mean_std':
                 mae *= y_info['std']
                 rmse *= y_info['std']
-            return (mae,r2,rmse), ("MAE", "R2", "RMSE")
+            return (mae,r2,rmse,r), ("MAE", "R2", "RMSE","PearsonR")
         elif self.is_binclass:
             # if not softmax, convert to probabilities
             predictions = check_softmax(predictions)
