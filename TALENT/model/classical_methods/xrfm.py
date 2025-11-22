@@ -16,6 +16,8 @@ from xrfm import xRFM
 
 import torch
 import numpy as np
+from scipy.stats import pearsonr
+
 
 
 class XRFMMethod(classical_methods):
@@ -223,10 +225,11 @@ class XRFMMethod(classical_methods):
             mae = skm.mean_absolute_error(labels, predictions)
             rmse = skm.mean_squared_error(labels, predictions) ** 0.5
             r2 = skm.r2_score(labels, predictions)
+            r = pearsonr(labels.reshape(-1), predictions)[0]
             if y_info['policy'] == 'mean_std':
                 mae *= y_info['std']
                 rmse *= y_info['std']
-            return (mae,r2,rmse), ("MAE", "R2", "RMSE")
+            return (mae,r2,rmse,r), ("MAE", "R2", "RMSE","PearsonR")
         else:
             predicted_classes = np.argmax(predictions, axis=1)
             accuracy = skm.accuracy_score(labels, predicted_classes)

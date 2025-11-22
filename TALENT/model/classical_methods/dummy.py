@@ -3,6 +3,7 @@ from copy import deepcopy
 import os.path as ops
 import pickle
 import time
+from scipy.stats import pearsonr
 
 class DummyMethod(classical_methods):
     def __init__(self, args, is_regression):
@@ -48,10 +49,11 @@ class DummyMethod(classical_methods):
             mae = skm.mean_absolute_error(labels, predictions)
             rmse = skm.mean_squared_error(labels, predictions) ** 0.5
             r2 = skm.r2_score(labels, predictions)
+            r = pearsonr(labels.reshape(-1), predictions)[0]
             if y_info['policy'] == 'mean_std':
                 mae *= y_info['std']
                 rmse *= y_info['std']
-            return (mae,r2,rmse), ("MAE", "R2", "RMSE")
+            return (mae,r2,rmse, r), ("MAE", "R2", "RMSE", "PearsonR")
         else:
             accuracy = skm.accuracy_score(labels, predictions)
             avg_precision = skm.precision_score(labels, predictions, average='macro')

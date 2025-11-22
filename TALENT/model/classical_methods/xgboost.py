@@ -51,7 +51,7 @@ class XGBoostMethod(classical_methods):
         else:
             test_logit = self.model.predict_proba(self.N_test)
         vres, metric_name = self.metric(test_logit, test_label, self.y_info)
-        return vres, metric_name, test_logit
+        return vres, metric_name, test_logit #, test_label, self.y_info
     
 
         
