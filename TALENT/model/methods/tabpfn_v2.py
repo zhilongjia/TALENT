@@ -108,7 +108,8 @@ class TabPFNMethod(Method):
         self.predict_time = time.time() - tic
         
         test_label = self.y_test
-        vl = self.criterion(torch.tensor(test_logit), torch.tensor(test_label)).item()
+        # vl = self.criterion(torch.tensor(test_logit), torch.tensor(test_label)).item()
+        vl = self.criterion(torch.tensor(test_logit).unsqueeze(1), torch.tensor(test_label)).item()
         vres, metric_name = self.metric(test_logit, test_label, self.y_info)
         print('Test: loss={:.4f}'.format(vl))
         for name, res in zip(metric_name, vres):
